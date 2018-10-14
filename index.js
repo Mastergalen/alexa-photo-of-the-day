@@ -30,7 +30,13 @@ const handlers = {
             largeImageUrl: 'https://source.unsplash.com/daily',
         };
 
-        this.response.speak(speechOutput).cardRenderer('Photo of the Day', '', imageObj);
+        if(supportsDisplay(this.event)) {
+            this.response.speak(speechOutput).cardRenderer('Photo of the Day', '', imageObj);
+        } else {
+            this.response.speak('Sorry, this device does not have display. Try this skill on an Echo Show or on your phone in the Alexa app.');
+        }
+
+        
         this.emit(':responseReady');
     },
     'AMAZON.HelpIntent': function () {
@@ -50,14 +56,15 @@ const handlers = {
     },
 };
 
-function supportsDisplay(handlerInput) {
-  const hasDisplay =
-    handlerInput.requestEnvelope.context &&
-    handlerInput.requestEnvelope.context.System &&
-    handlerInput.requestEnvelope.context.System.device &&
-    handlerInput.requestEnvelope.context.System.device.supportedInterfaces &&
-    handlerInput.requestEnvelope.context.System.device.supportedInterfaces.Display;
-  return hasDisplay;
+function supportsDisplay(event) {
+    var hasDisplay =
+    event.context &&
+    event.context.System &&
+    event.context.System.device &&
+    event.context.System.device.supportedInterfaces &&
+    event.context.System.device.supportedInterfaces.Display
+
+    return hasDisplay;
 }
 
 exports.handler = function (event, context, callback) {
