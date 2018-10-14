@@ -33,7 +33,7 @@ const handlers = {
         if(supportsDisplay(this.event)) {
             this.response.speak(speechOutput).cardRenderer('Photo of the Day', '', imageObj);
         } else {
-            this.response.speak('Sorry, this device does not have display. Try this skill on an Echo Show or on your phone in the Alexa app.');
+            this.response.speak('Sorry, this device does not support display. Try this skill on an Echo Show.');
         }
 
         
